@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
 
-# Configuración de la página del navegador
+
 st.set_page_config(page_title="Maestranzas Unidos S.A. - Inventario", layout="wide")
 
 st.title("⚙️ Sistema de Control de Inventarios - Maestranzas Unidos S.A.")
 st.subheader("Ambiente de Pruebas y Desarrollo - Versión MVP (6 Meses)")
 
-# Simulación de Base de Datos en memoria
+
 if 'inventario' not in st.session_state:
     st.session_state.inventario = pd.DataFrame([
         {"ID": 1, "Pieza": "Motor Hidráulico Rexroth", "N° Serie": "MH-9921", "Ubicación": "Estante A-3", "Stock": 5, "Stock Mínimo": 3},
@@ -16,7 +16,7 @@ if 'inventario' not in st.session_state:
         {"ID": 4, "Pieza": "Lubricante Alta Temperatura (Lote Vence 12/26)", "N° Serie": "LUB-440", "Ubicación": "Zona Químicos Q1", "Stock": 15, "Stock Mínimo": 8},
     ])
 
-# ----------------- COLUMNA DE REGISTRO (FORMULARIO) -----------------
+
 st.sidebar.header("📥 Registrar Nueva Pieza")
 with st.sidebar.form("formulario_registro"):
     nueva_pieza = st.text_input("Nombre de la Pieza/Componente (Ej: Rodamiento)")
@@ -39,9 +39,9 @@ with st.sidebar.form("formulario_registro"):
         else:
             st.sidebar.error("❌ Por favor, rellena todos los campos obligatorios.")
 
-# ----------------- SECCIÓN DE ALERTAS CRÍTICAS -----------------
+
 st.header("🚨 Alertas de Reposición Urgente")
-# Buscamos qué piezas están por debajo de su stock mínimo
+
 alertas = st.session_state.inventario[st.session_state.inventario['Stock'] <= st.session_state.inventario['Stock Mínimo']]
 
 if not alertas.empty:
@@ -50,10 +50,10 @@ if not alertas.empty:
 else:
     st.success("✅ Todos los niveles de stock están estables y sobre el mínimo.")
 
-# ----------------- VISUALIZACIÓN DE TABLA DE INVENTARIO -----------------
+
 st.header("📦 Inventario General de la Maestranza")
 
-# Buscador de piezas
+
 buscar = st.text_input("🔍 Buscar pieza por Nombre o Número de Serie:")
 df_mostrar = st.session_state.inventario
 if buscar:
@@ -61,7 +61,7 @@ if buscar:
 
 st.dataframe(df_mostrar, use_container_width=True)
 
-# ----------------- REGISTRO DE MOVIMIENTOS EN TIEMPO REAL -----------------
+
 st.subheader("🔄 Registrar Consumo / Retiro de Pieza para Proyecto")
 col1, col2 = st.columns(2)
 
